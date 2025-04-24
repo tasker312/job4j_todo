@@ -38,7 +38,6 @@ public class TaskController {
 
     @PostMapping("/save")
     public String saveTask(@ModelAttribute Task task) {
-        System.out.println(task);
         taskService.save(task);
         return "redirect:/tasks";
     }

@@ -42,10 +42,7 @@ class TaskRepositoryImplTest {
 
     @Test
     public void whenCreateThenTaskIsSaved() {
-        var task = new Task();
-        task.setDescription("test description");
-        task.setCreated(now());
-        task.setDone(false);
+        var task = new Task(0, "test", now(), false);
         taskRepository.create(task);
 
         var taskList = taskRepository.findAll();
@@ -61,10 +58,7 @@ class TaskRepositoryImplTest {
 
     @Test
     public void whenFindByIdThenReturnTask() {
-        var task = new Task();
-        task.setDescription("test description");
-        task.setCreated(now());
-        task.setDone(true);
+        var task = new Task(0, "test", now(), false);
         taskRepository.create(task);
 
         var actualTask = taskRepository.findById(task.getId());
@@ -89,13 +83,9 @@ class TaskRepositoryImplTest {
 
     @Test
     public void whenFindAllThenReturnAllTasks() {
-        var task1 = new Task();
-        task1.setDescription("test1 description");
-        task1.setCreated(now());
+        var task1 = new Task(0, "test1", now(), false);
         taskRepository.create(task1);
-        var task2 = new Task();
-        task2.setDescription("test2 description");
-        task2.setCreated(now().plusDays(1));
+        var task2 = new Task(0, "test", now(), false);
         taskRepository.create(task2);
         var expectedTasks = List.of(task1, task2);
 
@@ -113,10 +103,7 @@ class TaskRepositoryImplTest {
 
     @Test
     public void whenUpdateTaskThenReturnUpdatedTask() {
-        var task = new Task();
-        task.setDescription("test description");
-        task.setCreated(now());
-        task.setDone(false);
+        var task = new Task(0, "test description", now(), false);
         taskRepository.create(task);
 
         task.setDone(true);

@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "tasks")
 public class Task {
