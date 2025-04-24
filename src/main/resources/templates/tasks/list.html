@@ -1,8 +1,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header}"></head>
+<style>
+    th, td {
+        padding: 0.5em;
+    }
+</style>
 <body>
+<div th:replace="~{fragments/menu}"></div>
 <div class="container">
-
+    <div class="d-flex">
+        <h1 class="pt-3">TODO LIST</h1>
+        <a class="btn btn-success col-2 my-3 ms-auto" th:href="@{/tasks/0}">Добавить задачу</a>
+    </div>
+    <table class="table table-striped">
+        <thead class="table-light">
+        <tr>
+            <th scope="col">Описание</th>
+            <th scope="col" class="text-center col-2">Дата создания</th>
+            <th scope="col" class="text-center col-1">Выполнено</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr scope="row" th:each="task: ${tasks}"
+            th:if="${type == 'all' || type == 'new' && !task.done || type == 'done' && task.done}">
+            <td>
+                <a th:text="${task.description}" th:href="@{/tasks/{taskId}(taskId=${task.id})}"
+                   class="text-decoration-none text-reset ">Description
+                </a>
+            </td>
+            <td th:text="${{task.created}}" class="text-center">Created</td>
+            <td class="text-center">
+                <i th:if="${task.done}" class="bi bi-check-square"></i>
+                <i th:if="${!task.done}" class="bi bi-square"></i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

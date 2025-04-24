@@ -1,8 +1,48 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head th:replace="~{fragments/header}"></head>
 <body>
+<div th:replace="~{fragments/menu}"></div>
 <div class="container">
+    <form class="mt-3 form-control shadow mx-auto p-3" th:action="@{/tasks/save}" method="post">
+        <input type="hidden" id="id" name="id" th:value="${task.id}">
+        <input type="hidden" id="created" name="created" th:value="${task.created}">
+        <div class="mb-3">
+            <label for="description" class="form-label">
+                <b>Описание</b>
+            </label>
+            <textarea class="form-control" id="description" name="description" rows="10"
+                      placeholder="Укажите описание задачи" th:text="${task.description}"
+                      th:readonly="${type == 'read'}"></textarea>
+        </div>
+        <div class="mb-3" th:if="${task.id != 0}">
+            <span>
+                <b>Создана:</b>
+                <th:block th:text="${{task.created}}"></th:block>
+            </span>
+        </div>
+        <div class="form-check mb-3">
+            <input type="checkbox" name="done" class="form-check-input" id="done"
+                   th:checked="${task.done}" th:disabled="${type == 'read'}">
+            <label class="form-check-label" for="done">Завершена</label>
+        </div>
 
+        <div class="w-50">
+            <button class="btn btn-success w-25" type="submit" th:if="${type == 'edit'}">Сохранить</button>
+            <a class="btn btn-success w-25" th:href="@{/tasks/done(id=${task.id})}"
+               th:if="${type == 'read' && !task.done}">
+                Выполнено
+            </a>
+
+            <a class="btn btn-secondary w-25 ms-1" th:href="@{/tasks/{id}(id=${task.id}, type='edit')}"
+               th:if="${type == 'read'}">Редактировать
+            </a>
+
+            <a class="btn btn-secondary w-25 ms-1" th:href="@{/tasks}" th:if="${type == 'edit'}">Отмена</a>
+            <a class="btn btn-danger w-25 ms-1" th:href="@{/tasks/delete(id=${task.id})}" th:if="${task.id != 0}">
+                Удалить
+            </a>
+        </div>
+    </form>
 </div>
 </body>
 </html>
