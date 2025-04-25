@@ -7,5 +7,13 @@
                 <a class="nav-item nav-link ms-1" th:href="@{/tasks(type=new)}">Новые</a>
             </div>
         </div>
+        <div class="navbar-nav ml-auto" th:if="${user.name == 'Гость'}">
+            <a class="nav-item nav-link" th:href="@{/users/login}">Вход</a>
+            <a class="nav-item nav-link" th:href="@{/users/register}">Регистрация</a>
+        </div>
+        <div class="navbar-nav ml-auto" th:if="${user.name !='Гость'}">
+            <a class="nav-item nav-link" href="#" th:text="${user.name}">User Name</a>
+            <a class="nav-item nav-link" th:href="@{/users/logout}">Выход</a>
+        </div>
     </div>
 </div>
