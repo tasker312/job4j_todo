@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:replace="~{fragments/header}"></head>
+<body>
+<div th:replace="~{fragments/menu}"></div>
+<div class="container">
+    <h1>Операция не заверена.</h1>
+    <th:block th:text="${errorMessage}">Error message</th:block>
+</div>
+</body>
+</html>

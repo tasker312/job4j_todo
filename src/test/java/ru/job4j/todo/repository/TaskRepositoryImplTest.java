@@ -42,7 +42,7 @@ class TaskRepositoryImplTest {
 
     @Test
     public void whenCreateThenTaskIsSaved() {
-        var task = new Task(0, "test", now(), false);
+        var task = new Task(0, "title1", "test", now(), false);
         taskRepository.create(task);
 
         var taskList = taskRepository.findAll();
@@ -58,7 +58,7 @@ class TaskRepositoryImplTest {
 
     @Test
     public void whenFindByIdThenReturnTask() {
-        var task = new Task(0, "test", now(), false);
+        var task = new Task(0, "title1", "test", now(), false);
         taskRepository.create(task);
 
         var actualTask = taskRepository.findById(task.getId());
@@ -83,9 +83,9 @@ class TaskRepositoryImplTest {
 
     @Test
     public void whenFindAllThenReturnAllTasks() {
-        var task1 = new Task(0, "test1", now(), false);
+        var task1 = new Task(0, "title1", "test1", now(), false);
         taskRepository.create(task1);
-        var task2 = new Task(0, "test", now(), false);
+        var task2 = new Task(0, "title2", "test2", now(), false);
         taskRepository.create(task2);
         var expectedTasks = List.of(task1, task2);
 
@@ -102,12 +102,12 @@ class TaskRepositoryImplTest {
     }
 
     @Test
-    public void whenUpdateTaskThenReturnUpdatedTask() {
-        var task = new Task(0, "test description", now(), false);
+    public void whenDoneByIdThenReturnUpdatedTask() {
+        var task = new Task(0, "title1", "test description", now(), false);
         taskRepository.create(task);
 
+        taskRepository.doneById(task.getId());
         task.setDone(true);
-        taskRepository.update(task);
         var actualTask = taskRepository.findById(task.getId());
 
         assertThat(actualTask).isPresent().get()

@@ -1,6 +1,7 @@
 package ru.job4j.todo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -18,12 +19,15 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    int id;
+    private int id;
 
-    String description;
+    @NotBlank
+    private String title;
 
-    LocalDateTime created;
+    private String description;
 
-    boolean done;
+    private LocalDateTime created;
+
+    private boolean done;
 
 }

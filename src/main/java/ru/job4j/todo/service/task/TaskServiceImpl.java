@@ -15,12 +15,13 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
     @Override
-    public void save(Task task) {
-        if (task.getId() == 0) {
-            taskRepository.create(task);
-        } else {
-            taskRepository.update(task);
-        }
+    public boolean create(Task task) {
+        return taskRepository.create(task);
+    }
+
+    @Override
+    public boolean update(Task task) {
+        return taskRepository.updateTitleAndDescription(task);
     }
 
     @Override
@@ -34,17 +35,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteById(int id) {
-        taskRepository.deleteById(id);
+    public boolean deleteById(int id) {
+        return taskRepository.deleteById(id);
     }
 
     @Override
-    public void doneById(int id) {
-        var task = taskRepository.findById(id);
-        task.ifPresent(t -> {
-            t.setDone(true);
-            taskRepository.update(t);
-        });
+    public boolean doneById(int id) {
+        return taskRepository.doneById(id);
     }
 
 }

@@ -1,0 +1,5 @@
+ALTER TABLE tasks
+    ADD COLUMN title VARCHAR NOT NULL DEFAULT '<empty>';
+
+ALTER TABLE tasks
+    ALTER COLUMN title DROP DEFAULT;

@@ -1,5 +1,6 @@
 package ru.job4j.todo.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,21 +37,43 @@ public class TaskController {
         return "/tasks/_id";
     }
 
-    @PostMapping("/save")
-    public String saveTask(@ModelAttribute Task task) {
-        taskService.save(task);
+    @PostMapping("/create")
+    public String createTask(@Valid @ModelAttribute Task task, Model model) {
+        var isSaved = taskService.create(task);
+        if (!isSaved) {
+            model.addAttribute("errorMessage", "Не удалось выполнить создание задачи Название '%s'.".formatted(task.getTitle()));
+            return "/errors/error";
+        }
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("/update")
+    public String updateTask(@Valid @ModelAttribute Task task, Model model) {
+        var isUpdated = taskService.update(task);
+        if (!isUpdated) {
+            model.addAttribute("errorMessage", "Не удалось выполнить обновление задачи ID '%s'.".formatted(task.getId()));
+            return "/errors/error";
+        }
         return "redirect:/tasks";
     }
 
     @GetMapping("/delete")
-    public String deleteTask(@RequestParam int id) {
-        taskService.deleteById(id);
+    public String deleteTask(@RequestParam int id, Model model) {
+        var isDeleted = taskService.deleteById(id);
+        if (!isDeleted) {
+            model.addAttribute("errorMessage", "Не удалось выполнить удаление задачи ID '%s'.".formatted(id));
+            return "/errors/error";
+        }
         return "redirect:/tasks";
     }
 
     @GetMapping("/done")
-    public String doneTask(@RequestParam int id) {
-        taskService.doneById(id);
+    public String doneTask(@RequestParam int id, Model model) {
+        var isUpdated = taskService.doneById(id);
+        if (!isUpdated) {
+            model.addAttribute("errorMessage", "Не удалось выполнить обновление задачи ID '%s'.".formatted(id));
+            return "/errors/error";
+        }
         return "redirect:/tasks";
     }
 

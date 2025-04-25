@@ -28,25 +28,25 @@ class TaskServiceImplTest {
     }
 
     @Test
-    public void whenSaveNewTaskThenCreate() {
-        var task = new Task(0, "test", now(), false);
+    public void whenCreateNewTaskThenCreate() {
+        var task = new Task(0, "title1", "test", now(), false);
 
-        taskService.save(task);
+        taskService.create(task);
 
         verify(taskRepository).create(task);
     }
 
     @Test
-    public void whenSaveExistingTaskThenUpdate() {
-        var task = new Task(1, "test", now(), false);
-        taskService.save(task);
+    public void whenCreateExistingTaskThenUpdate() {
+        var task = new Task(1, "title1", "test", now(), false);
+        taskService.create(task);
 
-        verify(taskRepository).update(task);
+        verify(taskRepository).create(task);
     }
 
     @Test
     public void whenFindByIdThenReturnTask() {
-        var task = new Task(1, "test", now(), false);
+        var task = new Task(1, "title1", "test", now(), false);
         when(taskRepository.findById(1)).thenReturn(Optional.of(task));
 
         var result = taskService.findById(1);
@@ -71,8 +71,8 @@ class TaskServiceImplTest {
 
     @Test
     public void whenFindAllThenReturnAllTasks() {
-        var task1 = new Task(1, "test1", now(), false);
-        var task2 = new Task(2, "test2", now(), true);
+        var task1 = new Task(1, "title1", "test1", now(), false);
+        var task2 = new Task(2, "title2", "test2", now(), true);
         when(taskRepository.findAll()).thenReturn(List.of(task1, task2));
 
         var result = taskService.findAll();
@@ -95,10 +95,10 @@ class TaskServiceImplTest {
 
     @Test
     public void whenDoneByIdThenUpdate() {
-        var task = new Task(1, "test", now(), false);
+        var task = new Task(1, "title1", "test", now(), false);
         taskService.doneById(task.getId());
 
-        verify(taskRepository).update(task);
+        verify(taskRepository).doneById(task.getId());
     }
 
 }

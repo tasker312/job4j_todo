@@ -15,7 +15,7 @@
     <table class="table table-striped">
         <thead class="table-light">
         <tr>
-            <th scope="col">Описание</th>
+            <th scope="col">Название задачи</th>
             <th scope="col" class="text-center col-2">Дата создания</th>
             <th scope="col" class="text-center col-1">Выполнено</th>
         </tr>
@@ -24,7 +24,7 @@
         <tr scope="row" th:each="task: ${tasks}"
             th:if="${type == 'all' || type == 'new' && !task.done || type == 'done' && task.done}">
             <td>
-                <a th:text="${task.description}" th:href="@{/tasks/{taskId}(taskId=${task.id})}"
+                <a th:text="${task.title}" th:href="@{/tasks/{taskId}(taskId=${task.id})}"
                    class="text-decoration-none text-reset ">Description
                 </a>
             </td>

@@ -30,8 +30,8 @@ class TaskControllerTest {
 
     @Test
     public void whenFindAllThenReturnAllList() {
-        var task1 = new Task(1, "test1", now(), false);
-        var task2 = new Task(2, "test2", now(), true);
+        var task1 = new Task(1, "title1", "test1", now(), false);
+        var task2 = new Task(2, "title2", "test2", now(), true);
         var expectedTasks = List.of(task1, task2);
         when(taskService.findAll()).thenReturn(expectedTasks);
         var parameterType = "all";
@@ -54,7 +54,7 @@ class TaskControllerTest {
 
     @Test
     public void whenFindDoneThenReturnDoneList() {
-        var task1 = new Task(1, "test1", now(), false);
+        var task1 = new Task(1, "title1", "test1", now(), false);
         var expectedTasks = List.of(task1);
         when(taskService.findAll()).thenReturn(expectedTasks);
         var parameterType = "done";
@@ -77,7 +77,7 @@ class TaskControllerTest {
 
     @Test
     public void whenFindNewThenReturnNewList() {
-        var task2 = new Task(2, "test2", now(), true);
+        var task2 = new Task(2, "title2", "test2", now(), true);
         var expectedTasks = List.of(task2);
         when(taskService.findAll()).thenReturn(expectedTasks);
         var parameterType = "new";
@@ -100,7 +100,7 @@ class TaskControllerTest {
 
     @Test
     public void whenGetTaskByIdThenReturnTask() {
-        var task = new Task(1, "test1", now(), false);
+        var task = new Task(1, "title1", "test1", now(), false);
         when(taskService.findById(1)).thenReturn(Optional.of(task));
 
         var model = new ConcurrentModel();
@@ -140,17 +140,23 @@ class TaskControllerTest {
     }
 
     @Test
-    public void whenSaveTaskThenRedirectToTasks() {
-        var task = new Task(1, "test1", now(), false);
-        var view = taskController.saveTask(task);
+    public void whenCreateTaskThenRedirectToTasks() {
+        var task = new Task(1, "title1", "test1", now(), false);
+        when(taskService.create(any())).thenReturn(true);
+
+        var model = new ConcurrentModel();
+        var view = taskController.createTask(task, model);
 
         assertThat(view).isEqualTo("redirect:/tasks");
-        verify(taskService).save(task);
+        verify(taskService).create(task);
     }
 
     @Test
     public void whenDeleteTaskThenRedirectToTasks() {
-        var view = taskController.deleteTask(1);
+        when(taskService.deleteById(1)).thenReturn(true);
+
+        var model = new ConcurrentModel();
+        var view = taskController.deleteTask(1, model);
 
         assertThat(view).isEqualTo("redirect:/tasks");
         verify(taskService).deleteById(1);
@@ -158,7 +164,10 @@ class TaskControllerTest {
 
     @Test
     public void whenDoneTaskThenRedirectToTasks() {
-        var view = taskController.doneTask(1);
+        when(taskService.doneById(1)).thenReturn(true);
+
+        var model = new ConcurrentModel();
+        var view = taskController.doneTask(1, model);
 
         assertThat(view).isEqualTo("redirect:/tasks");
         verify(taskService).doneById(1);

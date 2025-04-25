@@ -7,14 +7,16 @@ import java.util.Optional;
 
 public interface TaskRepository {
 
-    void create(Task task);
+    boolean create(Task task);
 
     Optional<Task> findById(int id);
 
     Collection<Task> findAll();
 
-    void update(Task task);
+    boolean updateTitleAndDescription(Task task);
 
-    void deleteById(int id);
+    boolean deleteById(int id);
+
+    boolean doneById(int id);
 
 }
