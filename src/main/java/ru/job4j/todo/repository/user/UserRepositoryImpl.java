@@ -2,10 +2,11 @@ package ru.job4j.todo.repository.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.repository.CrudRepository;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -13,41 +14,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    private final SessionFactory sf;
+    private final CrudRepository crud;
 
     @Override
     public Optional<User> save(User user) {
-        var session = sf.openSession();
         try {
-            session.beginTransaction();
-            session.persist(user);
-            session.getTransaction().commit();
+            crud.run(session -> session.persist(user));
             return Optional.of(user);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
         }
         return Optional.empty();
     }
 
     @Override
     public Optional<User> findByLoginAndPassword(String login, String password) {
-        var session = sf.openSession();
         try {
-            session.beginTransaction();
-            var user = session.createSelectionQuery("FROM User u WHERE u.login = :login and u.password = :password", User.class)
-                    .setParameter("login", login)
-                    .setParameter("password", password)
-                    .uniqueResultOptional();
-            session.getTransaction().commit();
-            return user;
+            return crud.optional(
+                    "from User where login = :login and password = :password",
+                    User.class,
+                    Map.of(
+                            "login", login,
+                            "password", password
+                    )
+            );
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            session.getTransaction().rollback();
-        } finally {
-            session.close();
         }
         return Optional.empty();
     }

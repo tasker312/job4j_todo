@@ -16,7 +16,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public boolean create(Task task) {
-        return taskRepository.create(task);
+        return taskRepository.create(task).isPresent();
     }
 
     @Override

@@ -29,7 +29,7 @@ class TaskRepositoryImplTest {
 
     @BeforeAll
     public static void initRepositories() {
-        taskRepository = new TaskRepositoryImpl(SF);
+        taskRepository = new TaskRepositoryImpl(new CrudRepository(SF));
     }
 
     @AfterEach

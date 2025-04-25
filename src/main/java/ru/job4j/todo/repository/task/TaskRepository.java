@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface TaskRepository {
 
-    boolean create(Task task);
+    Optional<Task> create(Task task);
 
     Optional<Task> findById(int id);
 
