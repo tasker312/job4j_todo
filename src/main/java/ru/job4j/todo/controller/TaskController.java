@@ -1,11 +1,13 @@
 package ru.job4j.todo.controller;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.task.TaskService;
 
 import java.util.Collection;
@@ -38,7 +40,8 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String createTask(@Valid @ModelAttribute Task task, Model model) {
+    public String createTask(@ModelAttribute Task task, Model model, HttpSession session) {
+        task.setResponsible((User) session.getAttribute("user"));
         var isSaved = taskService.create(task);
         if (!isSaved) {
             model.addAttribute("errorMessage", "Не удалось выполнить создание задачи Название '%s'.".formatted(task.getTitle()));

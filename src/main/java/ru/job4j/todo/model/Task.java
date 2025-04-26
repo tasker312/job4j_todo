@@ -6,9 +6,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@ToString
+@Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,5 +27,9 @@ public class Task {
     private LocalDateTime created;
 
     private boolean done;
+
+    @ManyToOne
+    @JoinColumn(name = "responsible_id")
+    private User responsible;
 
 }
