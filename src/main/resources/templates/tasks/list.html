@@ -16,6 +16,7 @@
         <thead class="table-light">
         <tr>
             <th scope="col">Название задачи</th>
+            <th scope="col" class="text-center col-2">Приоритет</th>
             <th scope="col" class="text-center col-2">Ответственный</th>
             <th scope="col" class="text-center col-2">Дата создания</th>
             <th scope="col" class="text-center col-1">Выполнено</th>
@@ -29,6 +30,7 @@
                    class="text-decoration-none text-reset ">Description
                 </a>
             </td>
+            <td th:text="${{task.priority.name}}" class="text-center">Priority</td>
             <td th:text="${{task.responsible.name}}" class="text-center">Responsible</td>
             <td th:text="${{task.created}}" class="text-center">Created</td>
             <td class="text-center">

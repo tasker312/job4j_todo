@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.TaskService;
 
 import java.util.Collection;
@@ -19,6 +20,8 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
+
+    private final PriorityService priorityService;
 
     @GetMapping("")
     public String getTaskList(@RequestParam(value = "type", defaultValue = "all") String type, Model model) {
@@ -35,6 +38,7 @@ public class TaskController {
         if (task.isEmpty()) {
             model.addAttribute("type", "edit");
         }
+        model.addAttribute("priorities", priorityService.findAll());
         model.addAttribute("task", task.orElse(new Task()));
         return "/tasks/_id";
     }

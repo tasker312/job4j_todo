@@ -35,7 +35,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Optional<Task> findById(int id) {
         try {
             return crud.optional(
-                    "from Task where id = :id",
+                    "from Task t join fetch t.priority where t.id = :id",
                     Task.class,
                     Map.of("id", id)
             );
@@ -48,7 +48,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public Collection<Task> findAll() {
         try {
-            return crud.query("from Task order by id", Task.class);
+            return crud.query("from Task t join fetch t.priority order by t.id", Task.class);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -59,11 +59,12 @@ public class TaskRepositoryImpl implements TaskRepository {
     public boolean updateTitleAndDescription(Task task) {
         try {
             crud.run(
-                    "update Task set title = :title, description = :description where id = :id",
+                    "update Task set title = :title, description = :description, priority = :priority where id = :id",
                     Map.of(
                             "id", task.getId(),
                             "title", task.getTitle(),
-                            "description", task.getDescription()
+                            "description", task.getDescription(),
+                            "priority", task.getPriority()
                     )
             );
             return true;
