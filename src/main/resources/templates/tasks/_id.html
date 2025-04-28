@@ -35,6 +35,18 @@
                         th:selected="${task.priority != null && priority.id == task.priority.id}"></option>
             </select>
         </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">
+                <b>Категория:</b>
+            </label>
+            <select class="form-control" id="category" name="categoriesId" th:if="${task.id == 0}" multiple required>
+                <option th:each="category: ${categories}" th:value="${category.id}" th:text="${category.name}"
+                th:field="${categories}"></option>
+            </select>
+            <th:block th:if="${task.id != 0}" th:each="category: ${task.categories}">
+                <span class="badge text-bg-secondary" th:text="${category.name}">Category</span>
+            </th:block>
+        </div>
         <div class="mb-3" th:if="${task.id != 0}">
             <span>
                 <b>Создана:</b>

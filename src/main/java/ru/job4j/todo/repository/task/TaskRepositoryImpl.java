@@ -35,7 +35,7 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Optional<Task> findById(int id) {
         try {
             return crud.optional(
-                    "from Task t join fetch t.priority where t.id = :id",
+                    "from Task t join fetch t.priority join fetch t.categories where t.id = :id",
                     Task.class,
                     Map.of("id", id)
             );
