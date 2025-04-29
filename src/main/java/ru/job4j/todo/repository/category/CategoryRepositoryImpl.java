@@ -8,6 +8,7 @@ import ru.job4j.todo.repository.CrudRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -20,6 +21,20 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public Collection<Category> findAll() {
         try {
             return crud.query("from Category order by id", Category.class);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return List.of();
+    }
+
+    @Override
+    public Collection<Category> findByIds(Collection<Integer> ids) {
+        try {
+            return crud.query(
+                    "from Category where id in (:ids) order by id",
+                    Category.class,
+                    Map.of("ids", ids)
+            );
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

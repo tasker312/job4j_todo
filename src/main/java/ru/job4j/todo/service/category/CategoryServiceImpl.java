@@ -20,10 +20,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Collection<Category> findByIds(Collection<Integer> ids) {
-        var categories = categoryRepository.findAll();
-        return categories.stream()
-                .filter(c -> ids.contains(c.getId()))
-                .toList();
+        return categoryRepository.findByIds(ids);
     }
 
 }

@@ -8,4 +8,6 @@ public interface CategoryRepository {
 
     Collection<Category> findAll();
 
+    Collection<Category> findByIds(Collection<Integer> ids);
+
 }
