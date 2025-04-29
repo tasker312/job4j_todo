@@ -29,4 +29,6 @@ public class User {
     @NotBlank
     private String password;
 
+    private String timezone;
+
 }

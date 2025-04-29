@@ -32,6 +32,16 @@
             </div>
         </div>
         <div class="mb-3">
+            <label for="timezone" class="text-l">
+                <b>Часовой пояс</b>
+            </label>
+            <select id="timezone" name="timezone" class="form-control" required>
+                <option th:each="zone: ${zones}" th:value="${zone.id}" th:text="|${zone.id} (${zone.offset})|"
+                        th:selected="${zone.id == timeZone}"></option>
+            </select>
+
+        </div>
+        <div class="mb-3">
             <button type="submit" class="btn btn-success w-100">Зарегистрироваться</button>
         </div>
         <span>

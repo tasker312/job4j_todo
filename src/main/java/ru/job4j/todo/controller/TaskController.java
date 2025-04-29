@@ -11,6 +11,7 @@ import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.category.CategoryService;
 import ru.job4j.todo.service.priority.PriorityService;
 import ru.job4j.todo.service.task.TaskService;
+import ru.job4j.todo.util.timezone.TimeZonesOperations;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,19 +30,24 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping("")
-    public String getTaskList(@RequestParam(value = "type", defaultValue = "all") String type, Model model) {
+    public String getTaskList(@RequestParam(value = "type", defaultValue = "all") String type, Model model, HttpSession session) {
+        var user = (User) session.getAttribute("user");
         Collection<Task> tasks = taskService.findAll();
+        TimeZonesOperations.setTimeZoneToTasks(tasks, user);
         model.addAttribute("type", type);
         model.addAttribute("tasks", tasks);
         return "/tasks/list";
     }
 
     @GetMapping("/{id}")
-    public String getTask(@PathVariable int id, @RequestParam(value = "type", defaultValue = "read") String type, Model model) {
+    public String getTask(@PathVariable int id, @RequestParam(value = "type", defaultValue = "read") String type, Model model, HttpSession session) {
+        var user = (User) session.getAttribute("user");
         Optional<Task> task = taskService.findById(id);
         model.addAttribute("type", type);
         if (task.isEmpty()) {
             model.addAttribute("type", "edit");
+        } else {
+            TimeZonesOperations.setTimeZoneToTasks(List.of(task.get()), user);
         }
         model.addAttribute("priorities", priorityService.findAll());
         model.addAttribute("categories", categoryService.findAll());

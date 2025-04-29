@@ -12,4 +12,6 @@
     <include file="scripts/004_ddl_add_responsible_table_tasks.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_create_table_priorities.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_create_table_categories.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddl_change_task_column_created.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_create_user_column_timezone.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

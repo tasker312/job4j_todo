@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.repository.CrudRepository;
+import ru.job4j.todo.util.timezone.TimeZonesOperations;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Optional<Task> create(Task task) {
-        task.setCreated(LocalDateTime.now());
+        task.setCreated(TimeZonesOperations.getUTCDateTime());
         try {
             crud.run(session -> session.persist(task));
             return Optional.of(task);
